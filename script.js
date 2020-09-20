@@ -23,7 +23,9 @@ function game(event) {
 
   if (board[index]) return window.alert("This cell has already been marked!");
 
-  // TODO update the board here
+  cell = document.getElementById(index);
+  cell.classList.add(markers[player]);
+  board[index] = markers[player];  
 
   updateGameStatus();
   switchPlayer();
@@ -31,7 +33,8 @@ function game(event) {
 
 // switches the player value from 0 to 1 and vice versa
 function switchPlayer() {
-  // TODO Implement me!
+  if (player === 0) player = 1;
+  else player = 0;
 }
 
 // updates gameIsOver to true if a player won the game
@@ -60,7 +63,12 @@ function checkRows() {
 // returns true if all cells in the given row
 // are marked with the same marker, otherwise returns false
 function checkRow(row) {
-  // TODO Implement me!
+  let marker = board[toLinearIndex(row, 0)]; 
+  for (let col = 0; col < numCols; col++) {
+    if (board[toLinearIndex(row, col)] !== marker || 
+    board[toLinearIndex(row, col)] == undefined) return false;
+  }
+  return true;
 }
 
 // return the linear index corresponding to the row and column subscripts
@@ -71,13 +79,21 @@ function toLinearIndex(row, col) {
 // returns true if all cells in a column
 // are marked with the same marker, otherwise returns false
 function checkColumns() {
-  // TODO Implement me!
+  for (let col = 0; col < numCols; col++) {
+    if (checkColumn(col)) return true;
+  }
+  return false;
 }
 
 // returns true if all cells in the given column
 // are marked with the same marker, otherwise returns false
 function checkColumn(col) {
-  // TODO Implement me!
+  let marker = board[toLinearIndex(0, col)]; 
+  for (let row = 0; row < numRows; row++) {
+    if (board[toLinearIndex(row, col)] !== marker || 
+    board[toLinearIndex(row, col)] == undefined) return false;
+  }
+  return true;
 }
 
 // returns true if all cells in the major or minor diagonal
@@ -89,11 +105,22 @@ function checkDiagonals() {
 // returns true if all cells in the major diagonal
 // are marked with the same marker, otherwise returns false
 function checkMajorDiagonal() {
-  // TODO Implement me!
+  let marker = board[toLinearIndex(0,0)];
+  for (let row = 0, col = 0; row < numRows, col < numCols; row++, col++) {
+    if (board[toLinearIndex(row, col)] !== marker || 
+    board[toLinearIndex(row, col)] == undefined) return false;
+  }
+  return true;
 }
 
 // returns true if all cells in the minor diagonal
 // are marked with the same marker, otherwise returns false
 function checkMinorDiagonal() {
-  // TODO Implement me!
+  let marker = board[toLinearIndex(numRows - 1, numCols - 1)];
+  for (let row = numRows - 1, col = numCols - 1; 
+    row >= 0, col >= 0; row--, col--) {
+    if (board[toLinearIndex(row, col)] !== marker || 
+    board[toLinearIndex(row, col)] == undefined) return false;
+  }
+  return true;
 }
