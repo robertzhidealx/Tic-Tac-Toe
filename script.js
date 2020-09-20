@@ -23,9 +23,10 @@ function game(event) {
 
   if (board[index]) return window.alert("This cell has already been marked!");
 
+  board[index] = markers[player];  
   cell = document.getElementById(index);
   cell.classList.add(markers[player]);
-  board[index] = markers[player];  
+  numEmptyCells--;
 
   updateGameStatus();
   switchPlayer();
@@ -63,10 +64,8 @@ function checkRows() {
 // returns true if all cells in the given row
 // are marked with the same marker, otherwise returns false
 function checkRow(row) {
-  let marker = board[toLinearIndex(row, 0)]; 
   for (let col = 0; col < numCols; col++) {
-    if (board[toLinearIndex(row, col)] !== marker || 
-    board[toLinearIndex(row, col)] == undefined) return false;
+    if (board[toLinearIndex(row, col)] !== markers[player]) return false;
   }
   return true;
 }
@@ -88,10 +87,8 @@ function checkColumns() {
 // returns true if all cells in the given column
 // are marked with the same marker, otherwise returns false
 function checkColumn(col) {
-  let marker = board[toLinearIndex(0, col)]; 
   for (let row = 0; row < numRows; row++) {
-    if (board[toLinearIndex(row, col)] !== marker || 
-    board[toLinearIndex(row, col)] == undefined) return false;
+    if (board[toLinearIndex(row, col)] !== markers[player]) return false;
   }
   return true;
 }
@@ -105,10 +102,8 @@ function checkDiagonals() {
 // returns true if all cells in the major diagonal
 // are marked with the same marker, otherwise returns false
 function checkMajorDiagonal() {
-  let marker = board[toLinearIndex(0,0)];
   for (let row = 0, col = 0; row < numRows, col < numCols; row++, col++) {
-    if (board[toLinearIndex(row, col)] !== marker || 
-    board[toLinearIndex(row, col)] == undefined) return false;
+    if (board[toLinearIndex(row, col)] !== markers[player]) return false;
   }
   return true;
 }
@@ -116,11 +111,9 @@ function checkMajorDiagonal() {
 // returns true if all cells in the minor diagonal
 // are marked with the same marker, otherwise returns false
 function checkMinorDiagonal() {
-  let marker = board[toLinearIndex(numRows - 1, numCols - 1)];
   for (let row = numRows - 1, col = numCols - 1; 
     row >= 0, col >= 0; row--, col--) {
-    if (board[toLinearIndex(row, col)] !== marker || 
-    board[toLinearIndex(row, col)] == undefined) return false;
+    if (board[toLinearIndex(row, col)] !== markers[player]) return false;
   }
   return true;
 }
